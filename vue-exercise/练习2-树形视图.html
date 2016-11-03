@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>练习2-树形视图</title>
+  <style media="screen">
+    .litem{
+      cursor: pointer;
+    }
+    .bold{
+      font-weight: bold;
+    }
+    .add{
+      font-weight: lighter;
+    }
+    ul{
+      padding-left: 1em;
+      list-style-type: disc;
+    }
+  </style>
+</head>
+<body>
+  <p>You can double click a item to turn it into a folder.</p>
+  <ul id="demo">
+    <tree class="litem" :model="treeData"></tree>
+  </ul>
+  <script src="assets/js/vue.js" charset="utf-8"></script>
+  <script type="text/x-template" id="tree-template">
+    <li>
+      <div :class="{bold: isFolder}" @click="toggle" @dblclick="turnToFolder">
+        {{model.name}}
+        <span v-if="isFolder">[{{open ? "-" : "+"}}]</span>
+      </div>
+      <ul v-if="isFolder" v-show="open">
+        <tree class="litem" v-for="item in model.children" :model="item"></tree>
+        <li class="add" @click="addChild">+</li>
+      </ul>
+    </li>
+  </script>
+  <script type="text/javascript">
+    var data = {
+      name: "root",
+      children: [
+        {name: "well"},
+        {name: "you"},
+        {
+          name: "only",
+          children: [
+            {name: "the"},
+            {name: "light"}
+          ]
+        },
+        {
+          name: "when",
+          children: [
+            {
+              name: "it`s",
+              children: [
+                {name: "burning"},
+                {name: "low"}
+              ]
+            }
+          ]
+        }
+      ]
+    };
+    Vue.component("tree",{
+      template: "#tree-template",
+      props: {
+        model :Object
+      },
+      data: function() {
+        return {
+          open: false
+        };
+      },
+      computed: {
+        isFolder: function() {
+          return this.model.children && this.model.children.length;
+        }
+      },
+      methods: {
+        toggle: function() {
+          this.open = !this.open;
+        },
+        turnToFolder: function() {
+          if(!this.isFolder) {
+            Vue.set(this.model, "children", []);
+            this.addChild();
+            this.open = true;
+          }
+        },
+        addChild: function() {
+          this.model.children.push({
+            name: "new stuff"
+          });
+        }
+      }
+    });
+
+    var demo = new Vue({
+      el: "#demo",
+      data: {
+        treeData: data
+      }
+    });
+  </script>
+</body>
+</html>

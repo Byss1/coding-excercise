@@ -1,0 +1,42 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	0	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+html	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^<html lang="zh-CN">$/;"	function	line:2
+head	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^<head>$/;"	function	line:3
+meta	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^  <meta charset="UTF-8">$/;"	function	line:4
+meta	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^  <meta name="viewport" content="width=device-width, initial-scale=1.0">$/;"	function	line:5
+meta	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^  <meta http-equiv="X-UA-Compatible" content="ie=edge">$/;"	function	line:6
+title	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^  <title>ç»ƒä¹ 4-todos<\/title>$/;"	function	line:7
+style	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^  <style media="screen">$/;"	function	line:8
+body	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^<body>$/;"	function	line:23
+section	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^  <section id="main-body">$/;"	function	line:24
+header	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^    <header>$/;"	function	line:25
+h	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^      <h1>Todos<\/h1>$/;"	function	line:26
+input	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^      <input type="text" v-model="newTodo" @keyup.enter="addTodo" placeholder="What needs to be done?">$/;"	function	line:27
+section	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^    <section v-show="todos.length">$/;"	function	line:29
+input	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^      <input type="checkbox" v-model="allDone">$/;"	function	line:30
+ul	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^      <ul>$/;"	function	line:31
+li	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^        <li v-for="todo in filteredTodos" :key="todo.id">$/;"	function	line:32
+div	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^          <div class="view">$/;"	function	line:33
+input	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^            <input type="checkbox" v-model="todo.completed">$/;"	function	line:34
+label	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^            <label @dblclick="editTodo(todo)">{{todo.title}}<\/label>$/;"	function	line:35
+button	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^            <button type="button" @click="removeTodo(todo)"><\/button>$/;"	function	line:36
+input	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^          <input type="text" v-model="todo.title" v-todo-foucus="todo == editedTodo" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)">$/;"	function	line:38
+footer	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^    <footer v-show="todos.length">$/;"	function	line:42
+span	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^      <span class="todo-count">$/;"	function	line:43
+strong	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^        <strong>{{remaining}}<\/strong> {{remaining | pluralize}} left$/;"	function	line:44
+ul	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^      <ul>$/;"	function	line:46
+li	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^        <li><a href="#\/all" :class="{selected: visibility == 'all'}">All<\/a><\/li>$/;"	function	line:47
+li	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^        <li><a href="#\/active" :class="{selected: visibility == 'active'}">Active<\/a><\/li>$/;"	function	line:48
+li	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^        <li><a href="#\/completed" :class="{selected: visibility == 'completed'}">Completed<\/a><\/li>$/;"	function	line:49
+button	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^        <button type="button" @click="clearCompleted" v-show="todos.length > remaining">Clear completed<\/button>$/;"	function	line:50
+footer	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^  <footer>$/;"	function	line:54
+p	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^    <p>Double click to edit a todo<\/p>$/;"	function	line:55
+p	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^    <p>createn by Evan You<\/p>$/;"	function	line:56
+p	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^    <p>Part of TodoMVC<\/p>$/;"	function	line:57
+script	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^  <script src="assets\/js\/vue.js" charset="utf-8"><\/script>$/;"	function	line:59
+script	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^  <script type="text\/javascript">$/;"	function	line:60
+onHashChange	H:\WorkSpace\vue-exercise\Á·Ï°4-todos.html	/^  function onHashChange () {$/;"	function	line:177

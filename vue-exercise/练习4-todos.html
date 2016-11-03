@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>练习4-todos</title>
+  <style media="screen">
+    body{
+      background-color: #f5f5f5;
+      font-family: "Microsoft Yahei", cursive, fantasy;
+    }
+    #app-header{
+      width: 100%;
+    }
+    #app-header h1{
+      margin: 20px 0;
+      font-size: 100px;
+      text-align: center;
+      color: rgba(200, 128, 128, 0.5);
+    }
+    #app-header input.newTodo{
+      display: block;
+      width: 500px;
+      height: 23px;
+      margin: 0 auto;
+      padding: 16px 16px 16px 60px;
+      border: 1px solid #ddd;
+      font-size: 20px;
+      font-style: italic;
+      color: #444;
+    }
+    #app-header input.newTodo:focus{
+      outline: none;
+    }
+    .todo-list{
+      width: 578px;
+      margin: 0 auto 0 auto;
+      background-color: #fff;
+    }
+    .todo-list .toggleAll{
+      width: 0;
+      height: 0;
+      position: relative;
+      left: 39px;
+      bottom: 55px;
+      transform: rotate(90deg);
+    }
+    .todo-list .toggleAll::before{
+      content: ">";
+      font-size: 30px;
+      color: #bbb;
+    }
+    .todo-list ul, .todo-list li{
+      margin: 0;
+      padding: 0;
+    }
+    .todo-list ul{
+      margin-top: -21px;
+    }
+    .todo-list li{
+      list-style: none;
+      position: relative;
+    }
+    .todo-list .view{
+      height: 57px;
+      line-height: 57px;
+      font-size: 25px;
+      border: 1px solid #ddd;
+      border-top: none;
+      position: relative;
+    }
+    .view .toggle{
+      width: 0;
+      height: 0;
+      position: relative;
+      left: 39px;
+      bottom: 26px;
+      transform: rotate(90deg);
+    }
+    .view .toggle::before{
+      content: ">";
+      padding: 0 8px;
+      font-size: 30px;
+      color: #bbb;
+      border: 1px solid #ddd;
+      border-radius: 18px;
+    }
+    .view .toggle:checked::before{
+      color: #00BB20;
+    }
+    .view .todo{
+      display: inline-block;
+      width: 399px;
+      margin-left: 46px;
+    }
+    .view .todo.todoCompleted{
+      color: #bbb;
+      text-decoration: line-through;;
+    }
+    .view .removeTodo{
+      position: absolute;
+      top: 10px;
+      right: 5px;
+      width: 35px;
+      height: 35px;
+      font-size: 30px;
+      color: #cc9a9a;
+      border: none;
+      border-radius: 17px;
+      background-color: #fff;
+      display: none;
+      z-index: 1;
+    }
+    .view:hover .removeTodo{
+      display: inline-block;
+    }
+    .todo-list .editTodo{
+      position: absolute;
+      right: 1px;
+      bottom: 1px;
+      width: 499px;
+      height: 25px;
+      border: none;
+      padding: 16px 16px 16px 12px;
+      font-size: 25px;
+      font-family: "Microsoft Yahei", cursive, fantasy;
+      z-index: -1;
+    }
+    .todo-list .editTodo:focus{
+      z-index: 1;
+    }
+    .panel{
+      margin: 0 auto;
+      padding: 5px 0;
+      width: 576px;
+      height: 35px;
+      line-height: 35px;
+      border: 1px solid #ddd;
+      border-top: none;
+      background-color: #fff;
+      position: relative;
+    }
+    .todo-count{
+      margin-left: 20px;
+      color: #555;
+      font-size: 15px;
+    }
+    .panel ul{
+      margin: 0;
+      margin-left: 70px;
+      padding: 0;
+      display: inline-block;
+    }
+    .panel .panel-btn{
+      margin-left: 8px;
+      list-style: none;
+      display: inline-block;
+    }
+    .panel-btn a{
+      padding: 2px 6px;
+      text-decoration: none;
+      color: #555;
+      font-size: 15px;
+    }
+    .panel-btn a.selected{
+      padding: 1px 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    .panel-btn a:hover{
+      padding: 1px 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    .panel .clearCompleted{
+      position: absolute;
+      right: 0;
+      top: 15px;
+      display: inline-block;
+      color: #555;
+      font-size: 15px;
+      border: none;
+      background-color: #fff;
+    }
+    .panel .clearCompleted:hover{
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    #footer{
+      margin-top: 50px;
+    }
+    #footer p{
+      text-align: center;
+      color: #aaa;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <section id="main-body">
+    <header id="app-header">
+      <h1>Todos</h1>
+      <input class="newTodo" type="text" v-model="newTodo" @keyup.enter="addTodo" placeholder="What needs to be done?">
+    </header>
+    <section v-show="todos.length" class="todo-list">
+      <input type="checkbox" v-model="allDone" class="toggleAll">
+      <ul>
+        <li v-for="todo in filteredTodos" :key="todo.id">
+          <div class="view">
+            <input class="toggle" type="checkbox" v-model="todo.completed">
+            <label class="todo" :class="{todoCompleted: todo.completed}" @dblclick="editTodo(todo)">{{todo.title}}</label>
+            <button class="removeTodo" type="button" @click="removeTodo(todo)">&times;</button>
+          </div>
+          <input class="editTodo" type="text" v-model="todo.title" v-todo-focus="todo == editedTodo" @blur="doneEdit(todo)" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)">
+        </li>
+      </ul>
+    </section>
+    <footer class="panel" v-show="todos.length">
+      <span class="todo-count">
+        <strong>{{remaining}}</strong> {{remaining | pluralize}} left
+      </span>
+      <ul>
+        <li class="panel-btn"><a href="#/all" :class="{selected: visibility == 'all'}">All</a></li>
+        <li class="panel-btn"><a href="#/active" :class="{selected: visibility == 'active'}">Active</a></li>
+        <li class="panel-btn"><a href="#/completed" :class="{selected: visibility == 'completed'}">Completed</a></li>
+      </ul>
+        <button class="clearCompleted" type="button" @click="clearCompleted" v-show="todos.length > remaining">Clear completed</button>
+    </footer>
+  </section>
+  <footer id="footer">
+    <p>Double click to edit a todo</p>
+    <p>Rewriten by BYSS</p>
+    <p>Part of TodoMVC</p>
+  </footer>
+  <script src="assets/js/vue.js" charset="utf-8"></script>
+  <script type="text/javascript">
+  var STORAGE_KEY = "todos-vuejs-2-byss"
+  var todoStorage = {
+    fetch: function() {
+      var todos = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
+      todos.forEach(function(todo, index) {
+        todo.id = index
+      })
+      todoStorage.uid = todos.length
+      return todos
+    },
+    save: function(todos) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
+    }
+  }
+
+  var filters = {
+    all: function(todos) {
+      return todos
+    },
+    active: function(todos) {
+      return todos.filter(function(todo) {
+        return !todo.completed
+      })
+    },
+    completed: function(todos) {
+      return todos.filter(function(todo) {
+        return todo.completed
+      })
+    }
+  }
+
+  var demo = new Vue({
+    data: {
+      todos: todoStorage.fetch(),
+      visibility: "all",
+      newTodo: "",
+      editedTodo: null
+    },
+    computed: {
+      filteredTodos: function () {
+        return filters[this.visibility](this.todos)
+      },
+      remaining: function () {
+        return filters.active(this.todos).length
+      },
+      allDone: {
+        get: function () {
+          return this.remaining === 0
+        },
+        set: function (value) {
+          this.todos.forEach(function (todo) {
+            todo.completed = value
+          })
+        }
+      }
+    },
+    watch: {
+      todos: {
+        handler: function (newTodos) {
+          todoStorage.save(newTodos)
+        },
+        deep: true
+      }
+    },
+    filters: {
+      pluralize: function (remaining) {
+        return remaining === 1 ? 'item' : 'items'
+      }
+    },
+    methods: {
+      addTodo: function () {
+        var value = this.newTodo && this.newTodo.trim()
+        if (!value) {
+          return
+        }
+        this.todos.push({
+          title: value,
+          id: todoStorage.uid++,
+          completed: false
+        })
+        this.newTodo = ''
+      },
+      editTodo: function (todo) {
+        this.beforeEditCache = todo.title
+        this.editedTodo = todo
+      },
+      removeTodo: function (todo) {
+        this.todos.splice(this.todos.indexOf(todo), 1)
+      },
+      doneEdit: function (todo) {
+        if (!this.editedTodo) {
+          return
+        }
+        this.editedTodo = null
+        todo.title = todo.title.trim()
+        if (!todo.title) {
+          removeTodo(todo)
+        }
+      },
+      cancelEdit: function (todo) {
+        this.editedTodo = null
+        todo.title = this.beforeEditCache
+      },
+      clearCompleted: function () {
+        this.todos = filters.active(this.todos)
+      }
+    },
+    directives: {
+      'todo-focus': function (el, binding) {
+        if (binding.value) {
+          el.focus()
+        }
+      }
+    }
+  })
+
+  //router
+  function onHashChange () {
+    var visibility = window.location.hash.replace(/#\/?/, '')
+    if(filters[visibility]) {
+      demo.visibility = visibility
+    } else {
+      window.location.hash = ''
+      demo.visibility = 'all'
+    }
+  }
+
+  window.addEventListener('hashchange', onHashChange)
+  onHashChange()
+
+  demo.$mount("#main-body")
+  </script>
+</body>
+</html>

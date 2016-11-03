@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>练习2-多根节点树形视图</title>
+  <style media="screen">
+    .bold{
+      font-weight: bold;
+    }
+    ul{
+      padding-left: 1em;
+    }
+  </style>
+</head>
+<body>
+  <ul id="demo">
+    <tree v-for="one in treeData" :model="one"></tree>
+  </ul>
+  <script src="assets/js/vue.js" charset="utf-8"></script>
+  <script type="text/x-template" id="tree-template">
+    <li>
+      <div :class="{bold: isFolder}" @click="toggle" @dblclick="turnToFolder">
+        {{model.name}}
+        <span v-if="isFolder">[{{open ? "-" : "+"}}]</span>
+      </div>
+      <ul v-if="isFolder" v-show="open">
+        <tree v-for="oneItem in model.chldren" :model="oneItem"></tree>
+      </ul>
+    </li>
+  </script>
+  <script type="text/javascript">
+    // 源数据
+    var data = [
+      {
+        name: "you",
+        children: [
+          {name: "only"},
+          {
+            name: "know",
+            children: [
+              {name: "you`ve"},
+              {name: "been"},
+              {name: "high"}
+            ]
+          }
+        ]
+      },
+      {name: "when"},
+      {
+        name: "you",
+        children: [
+          {name: "are"},
+          {
+            name: "feeling",
+            children: [
+              {name: "low"}
+            ]
+          }
+        ]
+      }
+    ];
+
+    //注册组件
+    Vue.component("tree", {
+      template: "#tree-template",
+      props: {
+        model: Object
+      },
+      data: function() {
+        return {
+          open: false
+        };
+      },
+      computed: {
+        isFolder: function() {
+          return this.model.children && this.model.children.length;
+        }
+      },
+      methods: {
+        toggle: function() {
+          this.open = !this.open;
+        },
+        turnToFolder: function() {
+          if(!this.isFolder) {
+            Vue.set(this.model, "children", []);
+            this.addChild();
+            this.open = true;
+          }
+        },
+        addChild: function() {
+          this.model.children.push({
+            name: "new stuff"
+          });
+        }
+      }
+    });
+
+    //实例化
+    var demo = new Vue({
+      el: "#demo",
+      data: {
+        treeData: data
+      }
+    });
+  </script>
+</body>
+</html>
