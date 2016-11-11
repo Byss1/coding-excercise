@@ -1,5 +1,5 @@
 <template lang="html">
-  <div :class="classObject" @click="toggle">
+  <div :class="[isGrey ? style.isGrey : '', style.content]" @click="toggle">
     {{text}}
   </div>
 </template>
@@ -12,14 +12,6 @@ export default {
       isGrey: false,
       text: 'my very first vue project',
       style: style
-    }
-  },
-  computed: {
-    classObject () {
-      let classObj = {}
-      classObj[style.content] = true
-      classObj[style.isGrey] = this.isGrey
-      return classObj
     }
   },
   methods: {
