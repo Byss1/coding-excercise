@@ -1,6 +1,6 @@
 var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
-var ExtracTextPlugin = require('extract-text-webpack-plugin')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   entry: __dirname + '/src/main.js',
@@ -13,7 +13,7 @@ module.exports = {
     loaders: [
       {test: /\.json$/, loader: 'json'},
       {test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
-      {test: /\.css$/, loader: 'style!css?modules'},
+      {test: /\.css$/, loader: ExtractTextPlugin.extract('style', 'css?modules')},
       {test: /\.vue$/, loader: 'vue'}
     ]
   },
@@ -21,7 +21,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: __dirname + '/src/index.origin.html'
-    })
+    }),
+    new ExtractTextPlugin('main.css')
   ],
 
   devServer: {

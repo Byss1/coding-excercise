@@ -1,15 +1,25 @@
 <template lang="html">
-  <div class="content" :class="{isGrey: isGrey}" @click="toggle">
+  <div :class="classObject" @click="toggle">
     {{text}}
   </div>
 </template>
 
 <script>
+import style from './main.css'
 export default {
   data: () => {
     return {
       isGrey: false,
-      text: 'my very first vue project'
+      text: 'my very first vue project',
+      style: style
+    }
+  },
+  computed: {
+    classObject () {
+      let classObj = {}
+      classObj[style.content] = true
+      classObj[style.isGrey] = this.isGrey
+      return classObj
     }
   },
   methods: {
@@ -23,16 +33,5 @@ export default {
 <style lang="css">
   *{
     box-sizing: border-box;
-  }
-  .content{
-    width: 80%;
-    margin-top: 50px;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 30px;
-    font-family: "Microsoft Yahei" monospace;
-  }
-  .isGrey{
-    background-color: #eee;
   }
 </style>
